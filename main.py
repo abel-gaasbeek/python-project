@@ -1,21 +1,33 @@
-#2048 in python
+# 2048 in python
+import random
+
 import pygame
 
 from tile import Tile
 
 pygame.init()
-gamesize=4
+game_size = 4
 
-boardwidth=500
-boardheight=500
+board_width = 500
+board_height = 500
 
-win =pygame.display.set_mode((boardwidth, boardheight))
+win = pygame.display.set_mode((board_width, board_height))
 pygame.display.set_caption("2048")
 game = 'playing'
 
-width= (boardwidth / gamesize)-4
-size=boardwidth / gamesize
-height= width
+font = pygame.font.SysFont('Courier', 50)
+
+width = (board_width / game_size) - 4
+size = board_width / game_size
+height = width
+
+tiles = [[], [], [], []]
+
+
+def random_tiles():
+    column = random.randint(0,3)
+    row = random.randint(0,3)
+    tiles[column][row].change_number(2)
 
 
 def draw_grid(width, height):
@@ -23,17 +35,20 @@ def draw_grid(width, height):
         x = 2 + size * row
         for column in range(0, 4):
             y = 2 + size * column
-            Tile(x,y,win)
+            tiles[row].append(Tile(x, y, win, font))
             # pygame.draw.rect(win, (160, 160, 160), (x, y, width, height))
 
 
-    pygame.display.update()
+draw_grid(width, height)
 
-while game=='playing':
+random_tiles()
+
+while game == 'playing':
     pygame.time.delay(100)
     for event in pygame.event.get():
-        if event.type==pygame.QUIT:
-            game='over'
-    draw_grid(width, height)
+        if event.type == pygame.QUIT:
+            game = 'over'
+
+    pygame.display.update()
 
 pygame.quit()
