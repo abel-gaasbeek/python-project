@@ -1,6 +1,6 @@
 import pygame
 
-import tile
+
 
 
 class Tile:
